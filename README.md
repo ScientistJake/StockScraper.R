@@ -2,6 +2,9 @@
 A function (soon to be package) to scrape Yahoo! finance historical stock data. 
 This is compatible with their horrible API update that requires a cookie/crumb to access the historicals.
 
+## Installation
+    source("https://raw.githubusercontent.com/ScientistJake/StockScraper.R/master/StockScraper.R")
+
 ## Usage
     stockhistoricals(stocklist, start_date, end_date, verbose=TRUE) . 
 ## Arguments
