@@ -1,4 +1,10 @@
-get_stocklists <- function(exchange="NYSE"){
+get_stocklists <- function(exchange){
+  
+  ## This function downloads current stock exchange listings
+  ##
+  ## Usage get_stocklists(exchange)
+  ##   exchange : a character string specifying the exchange. can be 'NYSE', 'AMEX', or 'NASDAQ'.
+  
   if(exchange=="NASDAQ"){
     read.csv(file="http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download")
   } else if (exchange == "NYSE"){
@@ -18,7 +24,7 @@ stockhistoricals <- function(stocklist="GOOG", start_date="1970-01-01", end_date
   ##    stocklist : A vector of stock tickers. Default = GOOG. Can also pass "NYSE", "NASDAQ", or "AMEX" to get those lists.
   ##    start_date : start date in format Year-month-day. Default = "1970-01-01"
   ##    end_date : end date in format Year-month-day. Default = system date
-  ##    verbost : Logical. if F, suppresses messages
+  ##    verbose : Logical. if F, suppresses messages
   
   require(XML)
   require(RCurl)
@@ -40,7 +46,7 @@ stockhistoricals <- function(stocklist="GOOG", start_date="1970-01-01", end_date
   #grab a cookie. Try 5 times because sometimes yahoo puts fucking escape characters in the crumb
   tries = 1
   status = 1
-  while (tries < 5 && status !=200){
+  while (tries <= 5 && status !=200){
     url <- paste0("https://finance.yahoo.com/quote/GOOG/history")
     h <- handle(url)
     res <- GET(handle = h)
@@ -61,9 +67,10 @@ stockhistoricals <- function(stocklist="GOOG", start_date="1970-01-01", end_date
   
   if (status != 200){
     message("ERROR: Couldn't access Yahoo after 5 tries")
-  }
-  if (status == 401){
-    message("ERROR: The cookie/crumb scrape didn't work... Fucking yahoo...")
+    if (status == 401){
+      message("ERROR: The cookie/crumb scrape didn't work... Fucking yahoo...")
+    }
+    stop("Sorry about that...")
   }
   
   if (verbose == TRUE){
