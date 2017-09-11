@@ -68,7 +68,7 @@ stockhistoricals <- function(stocklist="GOOG", start_date="1970-01-01", end_date
   if (status != 200){
     message("ERROR: Couldn't access Yahoo after 5 tries")
     if (status == 401){
-      message("ERROR: The cookie/crumb scrape didn't work... Fucking yahoo...")
+      message("ERROR: The cookie/crumb scrape didn't work...")
     }
     stop("Sorry about that...")
   }
